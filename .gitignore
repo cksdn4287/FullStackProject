@@ -1,0 +1,23 @@
+# 백엔드 (Java/IntelliJ) 무시 파일
+backend/target/
+backend/build/
+backend/out/
+backend/.gradle/
+backend/.idea/
+backend/*.iml
+backend/help.md
+
+# 프론트엔드 (Node/React) 무시 파일
+frontend/node_modules/
+frontend/dist/
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+
+# OS 파일
+.DS_Store
+Thumbs.db
