@@ -10,7 +10,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.servlet.resource.ResourceUrlProvider;
 import org.zeroc.backend.domain.Todo;
+import org.zeroc.backend.dto.PageRequestDTO;
+import org.zeroc.backend.dto.PageResponseDTO;
+import org.zeroc.backend.dto.TodoDTO;
 import org.zeroc.backend.repository.TodoRepository;
+import org.zeroc.backend.service.TodoService;
 
 
 import java.time.LocalDate;
@@ -26,6 +30,8 @@ class BackendApplicationTests {
     private TodoRepository todoRepository;
     @Autowired
     private ResourceUrlProvider resourceUrlProvider;
+    @Autowired
+    private TodoService todoService;
 
     @Test
     void contextLoads() {
@@ -84,6 +90,28 @@ class BackendApplicationTests {
         log.info(result.getTotalElements());
 
         result.getContent().stream().forEach(todo -> log.info(todo));
+    }
+
+    @Test
+    public  void testGet(){
+        Long tno = 101L;
+
+        TodoDTO todoDTO = todoService.get(tno);
+
+        log.info("삭제 요청 : " + todoDTO);
+    }
+
+    @Test
+    public void textList(){
+
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
+                .page(2)
+                .size(10)
+                .build();
+
+        PageResponseDTO<TodoDTO> response = todoService.list(pageRequestDTO);
+
+        log.info("페이징 : " + response);
     }
 
 
