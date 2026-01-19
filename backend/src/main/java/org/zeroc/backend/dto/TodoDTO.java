@@ -21,7 +21,8 @@ public class TodoDTO {
 
     private String writer;
 
-    private boolean complete;
+
+    private Boolean complete;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING , pattern = "yyyy-MM-dd")
     private LocalDate dueDate;
