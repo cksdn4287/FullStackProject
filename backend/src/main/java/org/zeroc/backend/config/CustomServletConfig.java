@@ -24,8 +24,9 @@ public class CustomServletConfig implements WebMvcConfigurer {
 
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**") // 모든 경로에 대해
-                .allowedOrigins("*") // 리액트 서버 주소 허용
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // 허용할 HTTP 메서드
+               // .allowedOrigins("http://localhost:3000", "http://localhost:5173") // 리액트 서버 주소 허용
+                .allowedOriginPatterns("*")
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS","HEAD") // 허용할 HTTP 메서드
                 .allowedHeaders("*")
                 .allowCredentials(true); // 쿠키/인증 정보 포함 허용
     }
