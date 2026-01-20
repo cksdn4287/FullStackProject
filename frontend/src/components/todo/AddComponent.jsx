@@ -1,5 +1,7 @@
  import { useState } from "react";
  import {postAdd} from "../../api/todoApi"
+ import ResultModal from "../common/ResultModal";
+ import useCustomMove from "../../hooks/useCustomMove";
 
  const initState = {
   title:'',
@@ -11,53 +13,41 @@ const AddComponent = () => {
 
   const [todo, setTodo] = useState({...initState})
 
-  // const handleChangeTodo = (e) => {
-  //   todo[e.target.name] = e.target.value
+  const [result, setResult] = useState(null)
 
-  //   setTodo({...todo})
-  // }
-
-  // const handleClickAdd = () => {
-
-  //   postAdd(todo)
-  //   .then(result => {
-  //     console.log(result)
-  //     setTodo({...initState})
-  //   }).catch(e => {
-  //     console.error(e)
-  //   })
-  // }
+  const {moveToList} = useCustomMove()
 
   const handleChangeTodo = (e) => {
-  const { name, value } = e.target;
+    todo[e.target.name] = e.target.value
 
-  setTodo(prev => ({
-    ...prev,
-    [name]: value
-  }));
-};
-
+    setTodo({...todo})
+  }
 
   const handleClickAdd = () => {
 
-  const sendTodo = {
-    ...todo,
-    dueDate: todo.dueDate === '' ? null : todo.dueDate
+    postAdd(todo)
+    .then(result => {
+      setResult(result.TNO)
+      setTodo({...initState})
+    }).catch(e => {
+      console.error(e)
+    })
   }
 
-  postAdd(sendTodo)
-    .then(result => {
-      console.log(result)
-      setTodo({...initState})
-    })
-    .catch(e => {
-      console.error(e.response?.data || e)
-    })
-}
+  const closeModal = () => {
+    setResult(null)
+    moveToList()
+  }
+
+
+
 
 
   return(
    <div className="border-2 border-sky-200 mt-10 m-2 p-4">
+    {/*모달 처리 */}
+    {result ? <ResultModal title={'글 등록 결과'} content={`${result}번글 추가`} callbackFn={closeModal}></ResultModal> : <></>}
+
     <div className="flex justify-center">
       <div className="relative mb-4 flex w-full flex-wrap items-stretch">
         <div className="w-1/5 p-6 text-right font-bold">TITLE</div>
