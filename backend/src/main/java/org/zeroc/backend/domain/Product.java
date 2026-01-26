@@ -26,7 +26,11 @@ public class Product {
 
     private String pdesc;
 
-    private Boolean delFlag;
+    private boolean delFlag;
+
+    public void changeDel(boolean delFlag){
+        this.delFlag = delFlag;
+    }
 
     @ElementCollection
     @Builder.Default
