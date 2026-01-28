@@ -5,6 +5,7 @@ const productsRouter = () => {
 
   const Loading = <div>Loading...........</div>
   const ProductsList = lazy(  () => import("../pages/products/ListPage"))
+  const ProductAdd = lazy(  () => import("../pages/products/AddPage"))
 
   return[
     {
@@ -13,7 +14,11 @@ const productsRouter = () => {
     },
     {
       path:"",
-      element:<Navigate replace tp="/products/list"></Navigate>
+      element:<Navigate replace to="/products/list"></Navigate>
+    },
+    {
+      path:"add",
+      element:<Suspense fallback={Loading}><ProductAdd></ProductAdd></Suspense>
     }
   ]
 }
