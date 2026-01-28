@@ -17,6 +17,7 @@ import org.zeroc.backend.dto.ProductDTO;
 import org.zeroc.backend.repository.ProductRepository;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -122,11 +123,20 @@ public class ProductRepositoryTests {
         result.getDtoList().forEach(dto -> log.info(dto));
     }
 
+@Test
+    public  void testRegister(){
 
+        ProductDTO productDTO = ProductDTO.builder()
+                .pname("새로운 상품")
+                .pdesc("신규 추가 상품입니다")
+                .price(1000)
+                .build();
 
+        productDTO.setUploadFileNames(
+                List.of(UUID.randomUUID()+"-"+"Test1.jpg",
+                        UUID.randomUUID()+"_"+"Test2.jpg"));
 
+        productService.register(productDTO);
 
-
-
-
+}
 }
