@@ -99,7 +99,7 @@ public class ProductController {
 
         }
 
-        return  Map.of("RESULT" , "SECCESS");
+        return  Map.of("RESULT" , "SUCCESS");
     }
 
     @DeleteMapping("/{pno}")
