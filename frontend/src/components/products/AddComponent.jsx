@@ -1,5 +1,8 @@
 import {useRef, useState} from "react";
 import { postAdd } from "../../api/productsApi";
+import FetchingModal from "../common/FetchingModal";
+import ResultModal from "../common/ResultModal";
+import useCustomMove from "../../hooks/useCustomMove";
 
 const initState = {
   pname:'',
@@ -13,6 +16,12 @@ const AddComponent = () => {
   const [product , setProduct] = useState({...initState})
 
   const uploadRef = useRef()
+
+  const [fetching, setFetching] = useState(false)
+
+  const [result, setResult] = useState(null)
+
+  const {moveToList} = useCustomMove()
 
   const handleChangeProduct = (e) => {
     product[e.target.name] = e.target.value
@@ -33,13 +42,29 @@ const AddComponent = () => {
     formData.append("pdesc" , product.pdesc)
     formData.append("price" , product.price)
 
-    console.log(product)
+    console.log(formData)
 
-    postAdd(formData)
+    setFetching(true)
+
+    postAdd(formData).then( data => {
+      setFetching(false)
+      setResult(data.result)
+    })
+  }
+
+  const closeModal = () => {
+    setResult(null)
+
+    moveToList({page:1})
   }
 
   return(
     <div className="border-2 border-sky-200 mt-10 m-2 p-4">
+
+      {fetching? <FetchingModal></FetchingModal> : <></>}
+
+      {result ? <ResultModal title={'상품 등록 결과'} content={`${result}번글 추가`} callbackFn={closeModal}></ResultModal> : <></>}
+
       <div className="flex justify-center">
         <div className="relative mb-4 flex w-full flex-wrap items-stretch">
           <div className="w-1/5 p-6 text-right font-bold">Product Name</div>
