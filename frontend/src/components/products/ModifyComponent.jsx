@@ -62,7 +62,7 @@ const handleClickModify = () => {
   formData.append("pname", product.pname)
   formData.append("pdesc" , product.pdesc)
   formData.append("price", product.price)
-  formData.append("delFlag", product.delFlag)
+  formData.append("delFlag", product.delFlag ? product.delFlag : false)
 
   for(let i = 0; i < product.uploadFileNames.length; i++) {
     formData.append("uploadFileNames", product.uploadFileNames[i])
