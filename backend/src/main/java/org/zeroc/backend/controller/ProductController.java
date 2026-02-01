@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.zeroc.backend.dto.PageRequestDTO;
@@ -26,6 +27,7 @@ public class ProductController {
     private final CustomFileUtil fileUtil;
 
     @GetMapping("/list")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public PageResponseDTO<ProductDTO>  list(PageRequestDTO pageRequestDTO){
 
         log.info("list-----------------------" + pageRequestDTO);

@@ -25,17 +25,20 @@ const ListComponent = () => {
   useEffect(()=> {
 
     getList({page,size}).then(data => {
-      console.log(data)
+      console.log("현재 데이터 상태 : " , data)
       setServerData(data)
     })
   }, [page, size , refresh])
 
+  console.log("랜더링 중인 데이터 : "  , serverData)
+
   return(
     <div className="border-2 border-blue-100 mt-10 mr-2 ml-2">
       <div className="flex flex-wrap mx-auto justify-center p-6">
-        {serverData.dtoList.map(todo => (
+
+        {serverData.dtoList?.map(todo => (
           <div key={todo.tno}
-          className="w-full min-w-[400px] p-2 m-2 rounded shadow-md"
+          className="w-full  p-2 m-2 rounded shadow-md bg-white text-black"
           onClick={() => moveToRead(todo.tno)}>
 
             <div className="flex">
@@ -45,7 +48,7 @@ const ListComponent = () => {
               <div className="text-1xl m-1 p-2 w-8/12 font-extrabold">
               {todo.title}
               </div>
-              <div className="text-1xl m-1 p-2 w-2/10 font-medium">
+              <div className="text-1xl m-1 p-2 w-1/5 font-medium">
               {todo.dueDate}
               </div>
             </div>
