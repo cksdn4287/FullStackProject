@@ -61,6 +61,11 @@ public class CustomSecurityConfig {
 
         http.csrf(config -> config.disable());
 
+        http.authorizeHttpRequests(auth -> {
+            auth.requestMatchers("/api/member/kakao").permitAll();
+            auth.anyRequest().authenticated(); // 나머지는 인증 필요
+        });
+
         http.formLogin(config -> {
             config.loginPage("/api/member/login");
             config.successHandler(new APILoginSuccessHandler());
