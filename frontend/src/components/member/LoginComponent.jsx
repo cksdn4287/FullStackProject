@@ -1,5 +1,6 @@
 import { useState } from "react";
 import useCustomLogin from "../../hooks/useCustomLogin";
+import KakaoLoginComponent from "./KakaoLoginComponent";
 
 
 const initState = {
@@ -73,6 +74,7 @@ const LoginComponent = () => {
         </div>
       </div>
 
+        <KakaoLoginComponent></KakaoLoginComponent>
     </div>
   )
 }
