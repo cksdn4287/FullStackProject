@@ -6,8 +6,16 @@ const LogoutComponent = () => {
   
   const handleClickLogout = () => {
     doLogout()
+
+    const REST_API_KEY = "18923e5dc41ec198009923c66d126ee2"
+    const LOGOUT_REDIRECT_URI = "http://localhost:3000/"
+
+    const kakaoLogoutURL = `https://kauth.kakao.com/oauth/logout?client_id=${REST_API_KEY}&logout_redirect_uri=${LOGOUT_REDIRECT_URI}`
+
     alert("로그아웃 되었습니다")
-    moveToPath("/")
+
+    window.location.href = kakaoLogoutURL
+    // moveToPath("/")
   }
 
   return(

@@ -1,6 +1,6 @@
 import { createSlice , createAsyncThunk } from "@reduxjs/toolkit";
 import { loginPost } from "../api/memberApi" ;
-import { setCookie, getCookie } from "../util/cookieUtil";
+import { setCookie, getCookie , removeCookie } from "../util/cookieUtil";
 
 const initState = {
   email:''
@@ -28,14 +28,19 @@ const loginSlice = createSlice({
   reducers:{
     login:(state, action) => {
       console.log("login.........")
+      
+      const payload = action.payload
 
-      const data = action.payload
-
-      return {email: data.email}
+      // setCookie("member" , JSON.stringify(payload) , 1)
+      setCookie("member" , payload , 1);
+      return payload
     },
+
     logout:(state , action) => {
       console.log("logout---------")
 
+      removeCookie('member')
+      
       return {...initState}
     }
   },
@@ -46,16 +51,18 @@ const loginSlice = createSlice({
 
       const payload = action.payload
 
-      if(!payload.error){
-        setCookie("member", JSON.stringify(payload), 1)
+      if( payload && !payload.error){
+        // setCookie("member", JSON.stringify(payload), 1)
+        setCookie("member", payload ,1);
       }
       return payload
     })
+    .addCase(loginPostAsync.rejected, (state, action) => {
+      console.log("rejected");
+        console.error("로그인 실패: 서버 연결 또는 인증 오류");
+      })
     .addCase(loginPostAsync.pending, (state, action) => {
       console.log("pending")
-    })
-    .addCase(loginPostAsync.rejected, (state, action) => {
-      console.log("rejected")
     })
   }
 })

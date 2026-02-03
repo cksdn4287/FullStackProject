@@ -15,6 +15,6 @@ export const getCookie = (name) => {
   return cookies.get(name)
 }
 
-export const removeCookie = (name , paht=-"/") => {
+export const removeCookie = (name , path=-"/") => {
   cookies.remove(name , {path})
 }

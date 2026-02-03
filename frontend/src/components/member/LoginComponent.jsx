@@ -28,12 +28,14 @@ const LoginComponent = () => {
     .then(data => {
       console.log(data)
 
-      if(data.error){
+      if(data?.error){
         alert("이메일과 패스워드를 다시 확인하세요")
-      }else{
+      }else if(data){
         alert("로그인 성공")
         moveToPath('/')
       }
+    }).catch(err => {
+      alert("인증에 실패했스비다. 정보를 다시 확인하세요")
     })
   }
 

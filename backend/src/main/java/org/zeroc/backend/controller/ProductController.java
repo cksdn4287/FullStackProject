@@ -27,7 +27,7 @@ public class ProductController {
     private final CustomFileUtil fileUtil;
 
     @GetMapping("/list")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN' , 'ROLE_USER')")
     public PageResponseDTO<ProductDTO>  list(PageRequestDTO pageRequestDTO){
 
         log.info("list-----------------------" + pageRequestDTO);

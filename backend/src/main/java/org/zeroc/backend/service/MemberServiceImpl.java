@@ -14,6 +14,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import org.zeroc.backend.domain.Member;
 import org.zeroc.backend.domain.MemberRole;
 import org.zeroc.backend.dto.MemberDTO;
+import org.zeroc.backend.dto.MemberModifyDTO;
 import org.zeroc.backend.repository.MemberRepository;
 
 import java.util.LinkedHashMap;
@@ -115,6 +116,19 @@ public class MemberServiceImpl implements  MemberService{
         member.addRole(MemberRole.USER);
 
         return  member;
+    }
+
+    public void modifyMember(MemberModifyDTO memberModifyDTO){
+
+        Optional<Member>  result = memberRepository.findById(memberModifyDTO.getEmail());
+
+        Member member  = result.orElseThrow();
+
+        member.changePw(passwordEncoder.encode(memberModifyDTO.getPw()));
+        member.changeSocial(false);
+        member.changeNickname(memberModifyDTO.getNickname());
+
+        memberRepository.save(member);
     }
 }
 

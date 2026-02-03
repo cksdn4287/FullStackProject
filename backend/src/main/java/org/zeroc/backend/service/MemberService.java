@@ -4,6 +4,7 @@ package org.zeroc.backend.service;
 import org.springframework.transaction.annotation.Transactional;
 import org.zeroc.backend.domain.Member;
 import org.zeroc.backend.dto.MemberDTO;
+import org.zeroc.backend.dto.MemberModifyDTO;
 
 import java.util.stream.Collectors;
 
@@ -11,6 +12,8 @@ import java.util.stream.Collectors;
 public interface MemberService {
 
     MemberDTO getKakaoMember(String accessToken);
+
+    void modifyMember(MemberModifyDTO memberModifyDTO);
 
     default  MemberDTO entityToDTO(Member member){
 

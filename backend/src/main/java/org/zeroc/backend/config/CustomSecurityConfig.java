@@ -1,5 +1,6 @@
 package org.zeroc.backend.config;
 
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.context.annotation.Bean;
@@ -62,7 +63,7 @@ public class CustomSecurityConfig {
         http.csrf(config -> config.disable());
 
         http.authorizeHttpRequests(auth -> {
-            auth.requestMatchers("/api/member/kakao").permitAll();
+            auth.requestMatchers("/api/member/kakao" , "/api/member/login").permitAll();
             auth.anyRequest().authenticated(); // 나머지는 인증 필요
         });
 
@@ -71,6 +72,16 @@ public class CustomSecurityConfig {
             config.successHandler(new APILoginSuccessHandler());
             config.failureHandler(new APILoginFailHandler());
         });
+
+
+//        http.exceptionHandling(config -> {
+//            config.authenticationEntryPoint((request, response, authException) -> {
+//                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+//                response.setContentType("application/json;charset=utf-8");
+//                response.getWriter().print("{\"error\":\"ERROR_LOGIN\"}");
+//            });
+//            config.accessDeniedHandler(new CustomAccessDeniedHandler());
+//        });
 
         http.addFilterBefore(new JWTCheckFilter() ,
         UsernamePasswordAuthenticationFilter.class);
