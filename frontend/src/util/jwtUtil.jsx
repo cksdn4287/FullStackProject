@@ -119,15 +119,55 @@ const beforeRes = async (res) => {
 
     originalRequest.headers.Authorization = `Bearer ${result.accessToken}`
 
-    return await axios(originalRequest)
+    return await axios.request(originalRequest)
   }
   
   // 🚨 중요: 여기서 .data를 붙이지 마세요! 원본 그대로 넘깁니다.
   return res 
 }
 
-const responseFail = (err) => {
+// const responseFail = (err) => {
+//   console.log("response fail error---------------")
+
+//   if (err.response && err.response.status === 401) {
+//     console.log("인증 실패(401) - 토큰 갱신 혹은 재로그인이 필요합니다.");
+//     // 필요시 여기서 refreshJWT를 호출하거나 로그아웃 처리
+//   }
+
+//   return Promise.reject(err)
+// }
+
+const responseFail = async (err) => {
   console.log("response fail error---------------")
+
+  // 🚨 추가: 상태 코드가 401인 경우에도 토큰 갱신을 시도하게 합니다.
+  if (err.response && err.response.status === 401) {
+   const memberInfo = getCookie("member");
+
+    console.log("쿠키에서 가져온 회원 정보:", memberInfo);
+
+    if (memberInfo && memberInfo.refresh) {
+      console.log("401 에러 발생 - 토큰 갱신 시도")
+      try {
+        const result = await refreshJWT(memberInfo.accessToken, memberInfo.refresh)
+        memberInfo.accessToken = result.accessToken
+        // memberInfo.refresh = result.refreshToken
+        memberInfo.refresh = result.refreshToken || result.refresh || memberInfo.refresh
+        setCookie("member", JSON.stringify(memberInfo), 1)
+
+        // 원래 요청 재시도
+        const originalRequest = err.config
+        originalRequest.headers.Authorization = `Bearer ${result.accessToken}`
+        return await axios.request(originalRequest)
+      } catch (refreshErr) {
+        // 리프레시 토큰도 만료된 경우
+        console.log("리프레시 토큰으로 갱신 실패")
+        // window.location.href = "/member/login" 
+      }
+    }else{
+      console.log("리프레시 토큰 자체가 쿠키에 없습니다")
+    }
+  }
   return Promise.reject(err)
 }
 

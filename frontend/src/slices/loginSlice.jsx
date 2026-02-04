@@ -27,12 +27,12 @@ const loginSlice = createSlice({
 
   reducers:{
     login:(state, action) => {
-      console.log("login.........")
+      console.log("login paylode 확인 : " , action.payload)
       
       const payload = action.payload
 
-      // setCookie("member" , JSON.stringify(payload) , 1)
-      setCookie("member" , payload , 1);
+      setCookie("member" , JSON.stringify(payload) , 1)
+      // setCookie("member" , payload , 1);
       return payload
     },
 
@@ -52,8 +52,8 @@ const loginSlice = createSlice({
       const payload = action.payload
 
       if( payload && !payload.error){
-        // setCookie("member", JSON.stringify(payload), 1)
-        setCookie("member", payload ,1);
+        setCookie("member", JSON.stringify(payload), 1)
+        // setCookie("member", payload ,1);
       }
       return payload
     })

@@ -44,6 +44,6 @@ public class SocialController {
 
         memberService.modifyMember(memberModifyDTO);
 
-        return Map.of("result" , "modifyed");
+        return Map.of("result" , "modified");
     }
 }

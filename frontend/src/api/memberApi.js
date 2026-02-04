@@ -19,7 +19,9 @@ export const loginPost = async (loginParam) => {
 
 export const modifyMember = async (member) => {
 
+  console.log("실제 호출되는 최종 주소 : " , `${host}/modify`)
+
   const res = await jwtAxios.put(`${host}/modify`, member)
 
-  return res.data
+  return res
 }

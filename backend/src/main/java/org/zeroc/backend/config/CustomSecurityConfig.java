@@ -63,7 +63,8 @@ public class CustomSecurityConfig {
         http.csrf(config -> config.disable());
 
         http.authorizeHttpRequests(auth -> {
-            auth.requestMatchers("/api/member/kakao" , "/api/member/login").permitAll();
+            auth.requestMatchers("/api/member/kakao" , "/api/member/login" ,"/error" ,"/api/products/view/**" ).permitAll();
+            auth.requestMatchers("/api/member/modify").hasAnyRole("USER", "ADMIN");
             auth.anyRequest().authenticated(); // 나머지는 인증 필요
         });
 
@@ -74,14 +75,15 @@ public class CustomSecurityConfig {
         });
 
 
-//        http.exceptionHandling(config -> {
-//            config.authenticationEntryPoint((request, response, authException) -> {
-//                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-//                response.setContentType("application/json;charset=utf-8");
-//                response.getWriter().print("{\"error\":\"ERROR_LOGIN\"}");
-//            });
-//            config.accessDeniedHandler(new CustomAccessDeniedHandler());
-//        });
+        http.exceptionHandling(config -> {
+            config.authenticationEntryPoint((request, response, authException) -> {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.setContentType("application/json;charset=UTF-8");
+                response.getWriter().print("{\"error\": \"ERROR_ACCESS_TOKEN\"}");
+            });
+
+            config.accessDeniedHandler(new CustomAccessDeniedHandler());
+        });
 
         http.addFilterBefore(new JWTCheckFilter() ,
         UsernamePasswordAuthenticationFilter.class);
@@ -97,7 +99,6 @@ public class CustomSecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder(){
-
         return  new BCryptPasswordEncoder();
     }
 }

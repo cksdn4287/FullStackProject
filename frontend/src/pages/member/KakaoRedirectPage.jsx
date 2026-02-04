@@ -22,16 +22,16 @@ const KakaoRedirectPage = () => {
 
       getMemberWithAccessToken(accessToken).then(memberInfo => {
 
-        console.log("--------------------------")
+        console.log("카카오 로그인 회원 정보--------------------------")
         console.log(memberInfo)
 
         dispatch(login(memberInfo))
 
-        if(memberInfo && !memberInfo.social){
-          moveToPath("/")
-        }else{
-          moveToPath("/member/modify")
-        }
+      if(memberInfo){
+          moveToPath("/member/modify") // 소셜 회원이면 수정 페이지로
+      } else {
+          moveToPath("/") // 일반 회원이면 메인으로
+      }
       })
     })
   }, [authCode])
