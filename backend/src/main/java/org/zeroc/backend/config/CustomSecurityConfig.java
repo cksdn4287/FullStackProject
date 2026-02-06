@@ -63,7 +63,7 @@ public class CustomSecurityConfig {
         http.csrf(config -> config.disable());
 
         http.authorizeHttpRequests(auth -> {
-            auth.requestMatchers("/api/member/kakao" , "/api/member/login" ,"/error" ,"/api/products/view/**" ).permitAll();
+            auth.requestMatchers("/api/member/kakao" , "/api/member/login" ,"/error" ,"/api/products/view/**"  , "/api/member/refresh").permitAll();
             auth.requestMatchers("/api/member/modify").hasAnyRole("USER", "ADMIN");
             auth.anyRequest().authenticated(); // 나머지는 인증 필요
         });
