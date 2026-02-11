@@ -20,7 +20,8 @@ public class CartController {
 
     private  final CartService cartService;
 
-    @PreAuthorize("#itemDTO.email == authentication.name")
+//    @PreAuthorize("#itemDTO.email == authentication.name")
+    @PreAuthorize("principal.email == #itemDTO.email")
     @PostMapping("/change")
     public List<CartItemListDTO> changeCart(@RequestBody CartItemDTO itemDTO){
 
@@ -42,5 +43,15 @@ public class CartController {
         log.info("email : " + email);
 
         return  cartService.getCartItems(email);
+    }
+
+
+    @PreAuthorize("hasAnyRole('ROLE_USER')")
+    @DeleteMapping("/{cino}")
+    public List<CartItemListDTO>  removeFromCart(@PathVariable("cino") Long cino){
+
+        log.info("cart item no : " + cino);
+
+        return  cartService.remove(cino);
     }
 }
